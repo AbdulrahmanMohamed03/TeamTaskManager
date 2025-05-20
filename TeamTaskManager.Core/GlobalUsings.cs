@@ -5,4 +5,3 @@ global using System.Linq;
 global using System.Text;
 global using System.Threading.Tasks;
 global using Microsoft.AspNetCore.Identity;
-global using TeamTaskManager.EF.Context;

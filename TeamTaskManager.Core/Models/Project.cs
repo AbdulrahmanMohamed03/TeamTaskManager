@@ -18,7 +18,8 @@
         public DateTime EndDate { get; set; }
 
 
-        
+        public ICollection<UserProjects> UserProjects { get; set; }
+        public ICollection<Task> Tasks { get; set; }
 
     }
 }

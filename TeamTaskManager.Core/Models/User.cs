@@ -7,5 +7,7 @@
         [Required, MaxLength(64)]
         public string LastName { get; set; }
 
+        public ICollection<UserProjects> UserProjects { get; set; }
+        public ICollection<TaskAssignment> TaskAssignments { get; set; }
     }
 }
