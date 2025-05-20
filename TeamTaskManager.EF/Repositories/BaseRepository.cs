@@ -36,11 +36,6 @@ namespace TeamTaskManager.EF.Repositories
             return _context.Set<T>().Find(id);
         }
 
-        public T GetByName(string name)
-        {
-            return _context.Set<T>().Find(name);
-        }
-
         public T Update(T entity)
         {
             _context.Update(entity);
