@@ -10,7 +10,6 @@ namespace TeamTaskManager.Core.Interfaces
     {
         IEnumerable<T> GetAll();
         T GetById(int id);
-        T GetByName(string name);
         void Delete(T entity);
         T Add(T entity);
         T Update(T entity);
