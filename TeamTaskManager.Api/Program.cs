@@ -1,10 +1,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using TeamTaskManager.Core;
 using TeamTaskManager.Core.Models;
+using TeamTaskManager.EF;
 using TeamTaskManager.EF.Context;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>

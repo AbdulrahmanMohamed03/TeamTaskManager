@@ -21,8 +21,13 @@ namespace TeamTaskManager.EF.Repositories
             return entity;
         }
 
-        public void Delete(T entity)
+        public T GetById(int id)
         {
+            return _context.Set<T>().Find(id);
+        }
+        public void Delete(int id)
+        {
+            var entity = GetById(id);
             _context.Set<T>().Remove(entity);
         }
 
@@ -31,10 +36,6 @@ namespace TeamTaskManager.EF.Repositories
             return _context.Set<T>().ToList();
         }
 
-        public T GetById(int id)
-        {
-            return _context.Set<T>().Find(id);
-        }
 
         public T Update(T entity)
         {
