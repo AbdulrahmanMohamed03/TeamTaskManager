@@ -7,7 +7,7 @@ using TeamTaskManager.EF;
 using TeamTaskManager.EF.Context;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Add services to the container.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -47,3 +47,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
