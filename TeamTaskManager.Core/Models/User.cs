@@ -9,5 +9,6 @@
 
         public ICollection<UserProjects> UserProjects { get; set; }
         public ICollection<TaskAssignment> TaskAssignments { get; set; }
+        public IList<RefreshToken> RefreshTokens { get; set; }
     }
 }
