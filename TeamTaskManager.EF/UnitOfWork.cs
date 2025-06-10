@@ -20,8 +20,10 @@ namespace TeamTaskManager.EF
         {
             this.context = context;
             Tasks = new TaskRepository(context);
+            Projects = new ProjectRepository(context);
         }
         public ITaskRepository Tasks { get; private set; }
+        public IProjectRepository Projects { get; private set; }
         public void Dispose()
         {
             context.Dispose();

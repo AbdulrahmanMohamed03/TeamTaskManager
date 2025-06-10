@@ -11,6 +11,10 @@ namespace TeamTaskManager.Core.Services.Interfaces
     {
         Task<TokenDTO> Register(RegisterDTO registerDTO);
         Task<TokenDTO> Login(LoginDTO loginDTO);
+        Task<RoleDTO> AddRole(string roleName);
+
+
+
         //Task<TokenDTO> RefreshToken(string token);
         //Task<bool> RevokeToken(string token);
     }

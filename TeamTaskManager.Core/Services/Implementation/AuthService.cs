@@ -20,12 +20,26 @@ namespace TeamTaskManager.Core.Services.Implementation
     public class AuthService : IAuthService
     {
         private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly JWT _Jwt;
-        public AuthService(UserManager<User> userManager, IOptions<JWT> jwt)
+        public AuthService(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IOptions<JWT> jwt)
         {
             _userManager = userManager;
+            _roleManager = roleManager;
             _Jwt = jwt.Value;
         }
+
+        public async Task<RoleDTO> AddRole(string roleName)
+        {
+            var role = await _roleManager.RoleExistsAsync(roleName);
+            if (role) {
+                return new RoleDTO { message = "Role already exists"};
+            }
+            var rol = new IdentityRole(roleName);
+            await _roleManager.CreateAsync(rol);
+            return new RoleDTO { RoleName = roleName };
+        }
+
         public async Task<TokenDTO> Login(LoginDTO loginDTO)
         {
             string wrongInput = "Username, Email, Or password is wrong!";
@@ -86,7 +100,7 @@ namespace TeamTaskManager.Core.Services.Implementation
             }
 
             //Assign Employee Role To Each Member
-            var roleResult = await _userManager.AddToRoleAsync(user, "admin");
+            var roleResult = await _userManager.AddToRoleAsync(user, "Member");
             if (!roleResult.Succeeded) {
                 string errors = string.Empty;
                 foreach (var error in result.Errors)

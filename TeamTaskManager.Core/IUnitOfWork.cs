@@ -10,6 +10,7 @@ namespace TeamTaskManager.Core
     public interface IUnitOfWork : IDisposable
     {
         ITaskRepository Tasks { get; }
+        IProjectRepository Projects { get; }
 
         int save();
     }

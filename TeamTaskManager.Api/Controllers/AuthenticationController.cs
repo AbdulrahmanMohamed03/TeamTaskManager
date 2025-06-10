@@ -40,5 +40,19 @@ namespace TeamTaskManager.Api.Controllers
             return Ok(result);
         }
 
+        [HttpPost("AddRole")]
+        [Authorize(Roles ="admin")]
+        public async Task<IActionResult> AddRole([FromBody] string roleName) {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var role = await _authService.AddRole(roleName);
+            if (role.message != null) {
+                return BadRequest(role.message);
+            }
+            return Ok(role);
+        }
+
     }
 }
