@@ -24,7 +24,7 @@ namespace TeamTaskManager.EF.Repositories
         public void Delete(int id)
         {
             var entity = GetById(id);
-            context.Remove(entity);
+            context.Tasks.Remove(entity);
         }
 
         public IEnumerable<Core.Models.Task> GetAll()
