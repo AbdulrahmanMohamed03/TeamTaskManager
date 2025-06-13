@@ -22,10 +22,14 @@ namespace TeamTaskManager.EF
             Tasks = new TaskRepository(context);
             Projects = new ProjectRepository(context);
             TaskAssignments = new TaskAssignmentRepository(context);
+            UserProjects = new UserProjectsRepository(context);
+            Users = new UserRepository(context);
         }
         public ITaskRepository Tasks { get; private set; }
         public IProjectRepository Projects { get; private set; }
         public ITaskAssignmentRepository TaskAssignments { get; private set; }
+        public IUserProjectsRepository UserProjects { get; private set; }
+        public IUserRepository Users { get; private set; }
         public void Dispose()
         {
             context.Dispose();

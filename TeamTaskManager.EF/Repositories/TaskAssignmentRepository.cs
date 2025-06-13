@@ -15,15 +15,17 @@ namespace TeamTaskManager.EF.Repositories
             _context = context;
         }
 
-        public TaskAssignment Add(int taskId, string userId)
+
+        public TaskAssignment Add(TaskAssignment entity)
         {
-            var tskAssign = new TaskAssignment
-            {
-                TaskId = taskId,
-                UserId = userId
-            };
-            _context.Add(tskAssign);
-            return tskAssign;
+            _context.Add(entity);
+            return entity;
+        }
+
+        public void Delete(int id)
+        {
+            var entity = GetById(id);
+            _context.TaskAssignments.Remove(entity);
         }
 
         public TaskAssignment ExistingAssignment(int taskId, string userId)
@@ -32,12 +34,28 @@ namespace TeamTaskManager.EF.Repositories
                            .FirstOrDefault(ta => ta.TaskId == taskId && ta.UserId == userId);
         }
 
+        public IEnumerable<TaskAssignment> GetAll()
+        {
+            return _context.TaskAssignments.ToList();
+        }
+
+        public TaskAssignment GetById(int id)
+        {
+            return _context.TaskAssignments.Find(id);
+        }
+
         public List<User> GetUsersAssinedToTask(int taskId)
         {
             return _context.TaskAssignments
                 .Where(t => t.TaskId == taskId)
                 .Select(t => t.User)
                 .ToList();
+        }
+
+        public TaskAssignment Update(TaskAssignment entity)
+        {
+            _context.Update(entity);
+            return entity;
         }
     }
 }

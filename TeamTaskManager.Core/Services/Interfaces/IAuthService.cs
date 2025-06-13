@@ -13,6 +13,8 @@ namespace TeamTaskManager.Core.Services.Interfaces
         Task<TokenDTO> Login(LoginDTO loginDTO);
         Task<RoleDTO> AddRole(string roleName);
 
+        Task<AssignRoleDTO> AssignToRole(AssignRoleDTO assignRoleDTO);
+
 
 
         //Task<TokenDTO> RefreshToken(string token);

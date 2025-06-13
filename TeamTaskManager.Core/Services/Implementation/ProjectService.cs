@@ -12,9 +12,11 @@ namespace TeamTaskManager.Core.Services.Implementation
     public class ProjectService : IProjectService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProjectService(IUnitOfWork unitOfWork)
+        private readonly UserManager<User> _userManager;
+        public ProjectService(IUnitOfWork unitOfWork, UserManager<User> userManager)
         {
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
         }
 
         public async Task<ProjectDTO> AddProject(ProjectDTO projectDTO)
@@ -35,6 +37,29 @@ namespace TeamTaskManager.Core.Services.Implementation
             _unitOfWork.Projects.Add(project);
             _unitOfWork.save();
             return projectDTO;
+        }
+
+        public async Task<UserProjectsDTO> AddUserToProject(UserProjectsDTO userProjectsDTO)
+        {
+            var project = _unitOfWork.Projects.GetById(userProjectsDTO.ProjectId);
+            if (project == null) {
+                return new UserProjectsDTO { message = "This project is not found!" };
+            }
+            var user = await _userManager.FindByIdAsync(userProjectsDTO.UserId);
+            if (user == null) {
+                return new UserProjectsDTO { message = "This user is not found!" };
+            }
+            var exist = _unitOfWork.UserProjects.ExistingAssignment(userProjectsDTO.ProjectId, userProjectsDTO.UserId);
+            if (exist != null) {
+                return new UserProjectsDTO { message = "This user is already assined to this project!" };
+            }
+            var userProject = new UserProjects {
+                ProjectId = userProjectsDTO.ProjectId,
+                UserId = userProjectsDTO.UserId,
+            };
+            _unitOfWork.UserProjects.Add(userProject);
+            _unitOfWork.save();
+            return userProjectsDTO;
         }
 
         public async Task<ProjectDTO> DeleteProject(int id)

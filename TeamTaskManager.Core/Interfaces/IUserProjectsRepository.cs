@@ -7,12 +7,8 @@ using TeamTaskManager.Core.Models;
 
 namespace TeamTaskManager.Core.Interfaces
 {
-    public interface IUserRepository
+    public interface IUserProjectsRepository : IBaseRepository<UserProjects>
     {
-        IEnumerable<User> GetAll();
-        User GetById(string id);
-        User GetByName(string name);
-        void Delete(string id);
-        User Update(User entity);
+        public UserProjects ExistingAssignment(int projectId, string userId);
     }
 }

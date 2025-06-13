@@ -146,5 +146,17 @@ namespace TeamTaskManager.Api.Controllers
             }
             return Ok(result);
         }
+
+        [HttpPost("AddUserToProject")]
+        public async Task<IActionResult> AddUserToProject(UserProjectsDTO userProjectsDTO) {
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
+            }
+            var result = await _projectService.AddUserToProject(userProjectsDTO);
+            if (result.message != null) {
+                return NotFound(result.message);
+            }
+            return Ok(result);
+        }
     }
 }

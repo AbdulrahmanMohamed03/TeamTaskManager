@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using System.Text.Json.Serialization;
 using TeamTaskManager.Core;
 using TeamTaskManager.Core.Helpers;
 using TeamTaskManager.Core.Models;
@@ -17,9 +18,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProjectService,ProjectService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -54,6 +56,13 @@ builder.Services.AddAuthentication(op =>
     };
 }
     );
+
+builder.Services
+    .AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 //builder.Services.AddAuthorization();
 
 

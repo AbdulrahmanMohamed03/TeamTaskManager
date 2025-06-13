@@ -7,10 +7,9 @@ using TeamTaskManager.Core.Models;
 
 namespace TeamTaskManager.Core.Interfaces
 {
-    public interface ITaskAssignmentRepository
+    public interface ITaskAssignmentRepository : IBaseRepository<TaskAssignment>
     {
         public TaskAssignment ExistingAssignment(int taskId, string userId);
         public List<User> GetUsersAssinedToTask(int taskId);
-        public TaskAssignment Add(int taskId, string userId);
     }
 }

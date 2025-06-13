@@ -22,7 +22,7 @@ namespace TeamTaskManager.Core.Services.Interfaces
         public Task<TaskDTO> GetTaskByName(string name);
 
         public Task<TaskDTO> AddTaskToProject(int projectId, TaskDTO taskDTO);
-        public Task<TaskAssignmentDTO> AssignTaskToUser(int taskId, string userId);
+        public Task<TaskAssignmentDTO> AssignTaskToUser(TaskAssignmentDTO taskAssignmentDTO);
         public Task<TaskDTO> UpdateTask(int taskId, TaskDTO taskDTO);
         public Task<TaskDTO> DeleteTask(int id);
     }

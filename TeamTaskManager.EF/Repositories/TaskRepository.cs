@@ -34,7 +34,7 @@ namespace TeamTaskManager.EF.Repositories
 
         public List<Core.Models.Task> GetAllComingTasks()
         {
-            var tsks = context.Tasks.Where(t=>t.EndDate > DateTime.Now && t.CompleteDate == null).ToList();
+            var tsks = context.Tasks.Where(t => t.EndDate > DateTime.Now && t.CompleteDate == null && t.Status != Core.Models.TaskStatus.Completed).ToList();
             return tsks;
         }
 
@@ -43,6 +43,7 @@ namespace TeamTaskManager.EF.Repositories
             var tsks = context.TaskAssignments
                 .Where(u => u.UserId == id && u.Task.EndDate > DateTime.Now && u.Task.CompleteDate == null)
                 .Select(u => u.Task)
+                .Where(u=>u.Status != Core.Models.TaskStatus.Completed)
                 .ToList();
             return tsks;
         }
@@ -84,6 +85,7 @@ namespace TeamTaskManager.EF.Repositories
             var tsks = context.TaskAssignments
                 .Where(u => u.UserId == id && u.Task.Status == Core.Models.TaskStatus.Completed)
                 .Select(u => u.Task)
+                .Where(u=> u.CompleteDate !=null)
                 .ToList();
             return tsks;
         }
@@ -97,7 +99,7 @@ namespace TeamTaskManager.EF.Repositories
         public List<Core.Models.Task> GetDelayedTasks()
         {
             var tsks = context.Tasks
-                .Where(t => DateTime.Now > t.EndDate && t.CompleteDate == null)
+                .Where(t => DateTime.Now > t.EndDate && t.CompleteDate == null && t.Status != Core.Models.TaskStatus.Completed)
                 .ToList();
             return tsks;
         }

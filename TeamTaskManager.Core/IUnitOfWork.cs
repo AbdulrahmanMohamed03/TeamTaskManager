@@ -12,6 +12,9 @@ namespace TeamTaskManager.Core
         ITaskRepository Tasks { get; }
         IProjectRepository Projects { get; }
         ITaskAssignmentRepository TaskAssignments { get; }
+        IUserProjectsRepository UserProjects { get; }
+
+        IUserRepository Users { get; }
 
         int save();
     }

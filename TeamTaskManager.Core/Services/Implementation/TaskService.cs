@@ -46,6 +46,7 @@ namespace TeamTaskManager.Core.Services.Implementation
                 EndDate = taskDTO.EndDate,
                 Priority = taskDTO.Priority,
                 Status = taskDTO.Status,
+                ProjectId = projectId
             };
 
             _unitOfWork.Tasks.Add(task);
@@ -54,16 +55,29 @@ namespace TeamTaskManager.Core.Services.Implementation
 
         }
 
-        public async Task<TaskAssignmentDTO> AssignTaskToUser(int taskId, string userId)
+        public async Task<TaskAssignmentDTO> AssignTaskToUser(TaskAssignmentDTO taskAssignmentDTO)
         {
-            var exist = _unitOfWork.TaskAssignments.ExistingAssignment(taskId, userId);
+            var exist = _unitOfWork.TaskAssignments.ExistingAssignment(taskAssignmentDTO.TaskId, taskAssignmentDTO.UserId);
             if (exist != null) {
                 return new TaskAssignmentDTO { message = "This task is already assigned to this user!" };
             }
-
-            _unitOfWork.TaskAssignments.Add(taskId, userId);
+            var user = await _userManager.FindByIdAsync(taskAssignmentDTO.UserId);
+            if (user == null) {
+                return new TaskAssignmentDTO { message = "This user is not found!" };
+            }
+            var task = _unitOfWork.Tasks.GetById(taskAssignmentDTO.TaskId);
+            if (task == null)
+            {
+                return new TaskAssignmentDTO { message = "This task is not found!" };
+            }
+            var tsk = new TaskAssignment
+            {
+                UserId = taskAssignmentDTO.UserId,
+                TaskId = taskAssignmentDTO.TaskId,
+            };
+            _unitOfWork.TaskAssignments.Add(tsk);
             _unitOfWork.save();
-            return new TaskAssignmentDTO { message = "Assigned Successfully!" };
+            return new TaskAssignmentDTO { TaskId = taskAssignmentDTO.TaskId,UserId = taskAssignmentDTO.UserId ,message = "Assigned Successfully!" };
         }
 
         public async Task<TaskDTO> DeleteTask(int id)
@@ -287,7 +301,7 @@ namespace TeamTaskManager.Core.Services.Implementation
         public async Task<TaskDTO> UpdateTask(int taskId, TaskDTO taskDTO)
         {
             var exist = _unitOfWork.Tasks.GetById(taskId);
-            if (exist != null) {
+            if (exist == null) {
                 return new TaskDTO { message = "Task is not found!" };
             }
             if (taskDTO.Status == exist.Status
@@ -302,6 +316,13 @@ namespace TeamTaskManager.Core.Services.Implementation
             if (taskDTO.StartDate >= taskDTO.EndDate) {
                 return new TaskDTO { message = "Invalud Date!" };
             }
+            exist.Name = taskDTO.Name;
+            exist.Status = taskDTO.Status;
+            exist.StartDate = taskDTO.StartDate;
+            exist.EndDate = taskDTO.EndDate;
+            exist.Priority = taskDTO.Priority;
+            exist.CompleteDate = taskDTO.CompleteDate;
+            exist.Description = taskDTO.Description;
             _unitOfWork.Tasks.Update(exist);
             _unitOfWork.save();
             return taskDTO;

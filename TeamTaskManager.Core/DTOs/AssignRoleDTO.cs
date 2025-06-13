@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TeamTaskManager.Core.DTOs
 {
-    public class TaskAssignmentDTO
+    public class AssignRoleDTO
     {
         public string UserId { get; set; }
-        public int TaskId { get; set; }
-        public string? message { get; set; }  
+        public string RoleName { get; set; }
+        public string? message { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using TeamTaskManager.Core.Interfaces;
+using TeamTaskManager.Core.Models;
 using TeamTaskManager.EF.Context;
 
 namespace TeamTaskManager.EF.Repositories
@@ -22,11 +23,14 @@ namespace TeamTaskManager.EF.Repositories
             return entity;
         }
 
+
         public void Delete(int id)
         {
             var entity = GetById(id);
             _context.Projects.Remove(entity);
         }
+
+
 
         public IEnumerable<Project> GetAll()
         {

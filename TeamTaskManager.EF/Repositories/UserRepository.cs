@@ -16,9 +16,9 @@ namespace TeamTaskManager.EF.Repositories
             this.context = context;
         }
 
-        public async void Delete(string id)
+        public void Delete(string id)
         {
-            var user = await GetById(id);
+            var user =  GetById(id);
             context.Users.Remove(user);
         }
 
@@ -27,10 +27,16 @@ namespace TeamTaskManager.EF.Repositories
             return context.Users.ToList();
         }
 
-        public async Task<User> GetById(string id)
+        public User GetById(string id)
         {
-            var users = context.Users.FirstOrDefault(u => u.Id == id);
-            return users;
+            var user = context.Users.Find(id);
+            return user;
+        }
+
+        public User GetByName(string name)
+        {
+            var user = context.Users.FirstOrDefault(u => u.FirstName == name);
+            return user;
         }
 
         public User Update(User entity)

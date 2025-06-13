@@ -40,6 +40,25 @@ namespace TeamTaskManager.Core.Services.Implementation
             return new RoleDTO { RoleName = roleName };
         }
 
+        public async Task<AssignRoleDTO> AssignToRole(AssignRoleDTO assignRoleDTO)
+        {
+            var user = await _userManager.FindByIdAsync(assignRoleDTO.UserId);
+            if (user == null) {
+                return new AssignRoleDTO { message = "User Not Found!" };
+            }
+            var role = await _roleManager.FindByNameAsync(assignRoleDTO.RoleName);
+            if (role == null)
+            {
+                return new AssignRoleDTO { message = "Role Not Found!" };
+            }
+            var exist = await _userManager.IsInRoleAsync(user, role.Name);
+            if (exist) {
+                return new AssignRoleDTO { message = "This User already assigned to this role" };
+            }
+            await _userManager.AddToRoleAsync(user, assignRoleDTO.RoleName);
+            return assignRoleDTO;
+        }
+
         public async Task<TokenDTO> Login(LoginDTO loginDTO)
         {
             string wrongInput = "Username, Email, Or password is wrong!";

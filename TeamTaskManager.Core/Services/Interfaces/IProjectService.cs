@@ -23,5 +23,6 @@ namespace TeamTaskManager.Core.Services.Interfaces
         public Task<List<ProjectDTO>> GetCompletedProjects();
         public Task<List<ProjectDTO>> GetLateProjectsWithOpenTasks();
         public Task<List<UserDTO>> GetProjectUsers(int id);
+        public Task<UserProjectsDTO> AddUserToProject(UserProjectsDTO userProjectsDTO);
     }
 }
