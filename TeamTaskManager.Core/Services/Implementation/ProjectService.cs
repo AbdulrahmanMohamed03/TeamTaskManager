@@ -183,20 +183,6 @@ namespace TeamTaskManager.Core.Services.Implementation
             {
                 return new ProjectDTO { message = "Invalid Date!" };
             }
-            ProjectDTO oldData = new ProjectDTO
-            {
-                Title = exist.Title,
-                Description = exist.Description,
-                StartDate = exist.StartDate,
-                EndDate = exist.EndDate,
-            };
-            ProjectDTO newData = new ProjectDTO
-            {
-                Title = projectDTO.Title,
-                Description = projectDTO.Description,
-                StartDate = projectDTO.StartDate,
-                EndDate = projectDTO.EndDate,
-            };
             if (exist.Title == projectDTO.Title 
                 && exist.Description == projectDTO.Description 
                 && exist.StartDate == projectDTO.StartDate 
@@ -208,7 +194,7 @@ namespace TeamTaskManager.Core.Services.Implementation
             exist.EndDate = projectDTO.EndDate;
             _unitOfWork.Projects.Update(exist);
             _unitOfWork.save();
-            return newData;
+            return projectDTO;
         }
     }
 }
